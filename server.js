@@ -13,6 +13,7 @@ app.get('/blog', (req, res)=> {
     res.send('Hello blog')
 })
 
+// Create
 app.get('/products', async(req, res) => {
     try {
         const products = await Product.find({});
@@ -22,6 +23,7 @@ app.get('/products', async(req, res) => {
     }
 })
 
+// Fetch with ID
 app.get('/products/:id', async(req, res) => {
     try {
         const {id} = req.params;
@@ -39,6 +41,22 @@ app.post('/product', async(req,res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({message: error.message})
+    }
+})
+
+// Update
+app.put('/products/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const product = await Product.findByIdAndUpdate(id, req.body);
+        if(!product){
+            return res.status(404).json({message: `cannot find any product with ID ${id}`})
+        }
+        const UpdatedProduct = await Product.findById(id);
+        res.status(200).json(UpdatedProduct);
+
+    } catch (error) {
         res.status(500).json({message: error.message})
     }
 })
