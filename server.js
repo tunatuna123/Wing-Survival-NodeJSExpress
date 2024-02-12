@@ -24,7 +24,7 @@ app.get('/products', async(req, res) => {
     }
 })
 
-// Fetch with ID
+// Read List
 app.get('/products/:id', async(req, res) => {
     try {
         const {id} = req.params;
@@ -35,6 +35,7 @@ app.get('/products/:id', async(req, res) => {
     }
 })
 
+// Read
 app.post('/product', async(req,res) => {
     try{
         const product = await Product.create(req.body)
